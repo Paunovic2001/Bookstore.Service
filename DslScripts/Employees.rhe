@@ -1,21 +1,21 @@
 Module Bookstore
 {
-	Entity Employees
+	Entity Employee
 	{
 		ShortString Name;
-		ShortString VATNumber;
+		ShortString VATNumber { Unique; }
 		//modification time
-		DateTime LastEdit { ModificationTimeOf Bookstore.Employees.Name; }
+		DateTime LastEdit { ModificationTimeOf Bookstore.Employee.Name; }
 		
 		//lock
 		ItemFilter ValidVATLength 'e => e.VATNumber.Length != 9 || e.VATNumber.Length != 12';
 		Lock ValidVATLength 'The VAT number is already the correct length';
 	}
 
-	Entity Managers
+	Entity Manager
 	{
 		//1:1 relationship
-		Extends Bookstore.Employees;
+		Extends Bookstore.Employee;
 		Decimal Bonus { DefaultValue 'item => 0'; }  
 	}
 
@@ -26,12 +26,12 @@ Module Bookstore
 		ShortString Description;
 
 		//many to one relationship
-		Reference Employees;
+		Reference Employee;
 
 		Logging { AllProperties; }
 	}
 
-	Entity Departments
+	Entity Department
 	{
 		//default value and auto code
 		ShortString Code { AutoCode; DefaultValue 'department => "DEPARTMENT++"'; }
@@ -39,12 +39,12 @@ Module Bookstore
 	}
 
 	//many to many relationship
-	Entity EmployeesDepartments
+	Entity EmployeeDepartment
 	{
 		//creaton time
 		DateTime Created { CreationTime; }
-		Reference Employees;
-		Reference Departments;
+		Reference Employee;
+		Reference Department;
 
 	}
 }

@@ -1,15 +1,152 @@
 Module Bookstore
 {
     Entity Book
-   {
+    {
         ShortString Code { AutoCode; }
         ShortString Title;
         Integer NumberOfPages;
+        Reference Author Bookstore.Person;
 
         ItemFilter CommonMisspelling 'book => book.Title.Contains("curiousity")';
         InvalidData CommonMisspelling 'It is not allowed to enter misspelled word "curiousity".';
 
+        //logging
         Logging;
+    }
+
+    Entity Topic
+    {
+        ShortString Name { Unique; Required; }
+    }
+
+    Entity BookTopic
+    {
+        Reference Book { Detail; }
+        Reference Topic { Required; }
+
+        UniqueMultiple 'Book Topic';
+    }
+
+    Browse BookGrid Bookstore.Book
+    {
+        Take Code;
+        Take Title;
+        Take 'Author.Name';
+        Take TranslatorName 'Extension_ForeignBook.Translator.Name';
+        Take NumberOfComments 'Extension_BookInfo.NumberOfComments';
+    }
+
+    Browse BookTopicGrid Bookstore.Book
+    {
+        Take BookName 'Title';
+        Take 'Author.Name';
+        Take NumberOfTopics 'Extension_TotalTopicsForBook.NumberOfTopics';
+    }
+    /*
+    SqlQueryable BookInfo
+        "
+            SELECT
+                b.ID,
+                NumberOfComments = COUNT(c.ID)
+            FROM
+                Bookstore.Book b
+                LEFT JOIN Bookstore.Comment c ON c.BookID = b.ID
+            GROUP BY
+                b.ID
+        "
+    {
+        Extends Bookstore.Book;
+        Integer NumberOfComments;
+    
+        AutodetectSqlDependencies;
+    }*/
+
+    SqlQueryable TotalTopicsForBook
+    "
+        SELECT
+            b.ID,
+            NumberOfTopics = COUNT(bt.ID)
+        FROM 
+            Bookstore.Book b
+            JOIN BookTopic bt ON b.ID = bt.BookID 
+        GROUP BY 
+            b.ID
+    "
+    {
+        Extends Bookstore.Book;
+        Integer NumberOfTopics;
+    }
+
+    //Same as BookInfo above, only it uses an external SQL script placed inside the SQL folder found in the DslScripts folder
+    SqlQueryable BookInfo <SQL\BookInfo.sql>
+    {
+        Extends Bookstore.Book;
+        Integer NumberOfComments;
+    
+        AutodetectSqlDependencies;
+    }
+
+    Computed ExpectedBookRating 'repository =>
+        {
+            var books = repository.Bookstore.Book.Query()
+                .Select(b =>
+                    new
+                    {
+                        b.ID,
+                        b.Title,
+                        IsForeign = b.Extension_ForeignBook.ID != null
+                    })
+                .ToList();
+
+            var ratings = new List<ExpectedBookRating>();
+            foreach (var book in books)
+            {
+                decimal rating = 0;
+
+                if (book.Title?.IndexOf("super", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                    rating += 100;
+
+                if (book.Title?.IndexOf("great", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                    rating += 50;
+
+                if (book.IsForeign)
+                    rating *= 1.2m;
+
+                ratings.Add(new ExpectedBookRating { ID = book.ID, Rating = rating });
+            }
+
+            return ratings.ToArray();
+        }'
+    {
+        Extends Bookstore.Book;
+        Decimal Rating;
+    }
+
+    Action InsertRandomBooks
+        '(parameter, repository, userInfo) => Bookstore.Service.BookActions.InsertBooksRandom(repository, parameter.NumberOfBooks)'
+        {
+            Integer NumberOfBooks;
+        }
+
+    Hardcoded Genre
+    {
+        ShortString Label; // Short text displayed to user.
+        LongString Description;
+        Bool IsFiction;
+
+        Entry ScienceFiction
+        {
+            Value Label 'Science fiction';
+            Value Description 'A speculative fiction with imagined elements that are inspired by natural sciences or social sciences.';
+            Value IsFiction 1;
+        }
+
+        Entry Biography
+        {
+            Value Label 'Biography';
+            Value Description 'A written narrative of a person''s life.';
+            Value IsFiction 0;
+        }
     }
 
     Entity Person
@@ -24,19 +161,19 @@ Module Bookstore
     }
 
     Entity ChildrensBook
-{
-    Extends Bookstore.Book;
+    {
+        Extends Bookstore.Book;
 
-    Integer AgeFrom;
-    Integer AgeTo;
-    IntegerRange AgeFrom AgeTo; // A simple validation.
-}
+        Integer AgeFrom;
+        Integer AgeTo;
+        IntegerRange AgeFrom AgeTo; // A simple validation.
+    }
 
-Entity ForeignBook
-{
-    Extends Bookstore.Book;
+    Entity ForeignBook
+    {
+        Extends Bookstore.Book;
 
-    ShortString OriginalLanguage;
-    Reference Translator Bookstore.Person;
-}
+        ShortString OriginalLanguage;
+        Reference Translator Bookstore.Person;
+    }
 }
