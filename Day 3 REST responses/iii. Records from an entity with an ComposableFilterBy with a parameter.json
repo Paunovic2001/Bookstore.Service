@@ -1,0 +1,54 @@
+//https://localhost:7112/rest/Bookstore/Book/?filters=[{"Filter":"BooksContainingLetterAInTitleAndLongerThan","Value":{"NumberOfPages":150}}]
+{
+  "records": [
+    {
+      "code": "4",
+      "numberOfPages": 462,
+      "title": "Wasteful Cappelletti",
+      "authorID": null,
+      "id": "aa34eabf-3158-45b2-816a-39f126c9e781"
+    },
+    {
+      "code": "5",
+      "numberOfPages": 174,
+      "title": "Dysfunctional War",
+      "authorID": null,
+      "id": "641c144a-e352-4817-ad49-72de11dcc5f5"
+    },
+    {
+      "code": "6",
+      "numberOfPages": 158,
+      "title": "Forgetful Harmony",
+      "authorID": null,
+      "id": "0b923d1f-70ed-4747-91ad-3c5251649220"
+    },
+    {
+      "code": "8",
+      "numberOfPages": 394,
+      "title": "Vulgar Bay",
+      "authorID": null,
+      "id": "88412f39-099d-439b-8bc1-e49a2d7aee74"
+    },
+    {
+      "code": "10",
+      "numberOfPages": 398,
+      "title": "Known Asterisk",
+      "authorID": null,
+      "id": "b7525d80-33d8-4ffb-a3e9-9f4f4a1c777d"
+    },
+    {
+      "code": "16",
+      "numberOfPages": 392,
+      "title": "Tan Trail",
+      "authorID": null,
+      "id": "9aea29db-a818-4948-be88-c92fe0b4a022"
+    },
+    {
+      "code": "17",
+      "numberOfPages": 370,
+      "title": "Dazzling Freon",
+      "authorID": null,
+      "id": "89ab98df-95a5-47a2-90d0-3bd3ff4ed706"
+    }
+  ]
+}

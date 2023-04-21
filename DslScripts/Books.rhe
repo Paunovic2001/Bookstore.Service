@@ -7,11 +7,53 @@ Module Bookstore
         Integer NumberOfPages;
         Reference Author Bookstore.Person;
 
+        //day3 item filter
+        ItemFilter LongTitle 'item => item.Title.Length > 10';
+
         ItemFilter CommonMisspelling 'book => book.Title.Contains("curiousity")';
         InvalidData CommonMisspelling 'It is not allowed to enter misspelled word "curiousity".';
 
+        ComposableFilterBy BooksContainingLetterAInTitleAndLongerThan '(query, repository, parameter) => 
+            {
+                return query.Where(item => (item.Title.Contains("a") || item.Title.Contains("A")) && item.NumberOfPages >= parameter.NumberOfPages);
+            }';
+
+        FilterBy ComplexSearch '(repository, parameter) => 
+        {
+            var query = repository.Bookstore.Book.Query(item => item.NumberOfPages >= parameter.MinimumPages);
+            if (parameter.HasAuthor == true)
+            {
+                query = query.Where(item => string.IsNullOrEmpty(item.AuthorID.ToString()) == false);
+            }
+
+            Book[] books = query.ToSimple().ToArray();
+
+            if(parameter.CensorTitle == true) 
+            {
+                foreach(var book in books)
+                {
+                    book.Title = book.Title.First() + "%#%@^!%" + book.Title.Last();
+                }
+            }
+
+            return books;
+        }';
+
+
         //logging
         Logging;
+    }
+
+    Parameter BooksContainingLetterAInTitleAndLongerThan
+    {
+        Integer NumberOfPages;
+    }
+
+    Parameter ComplexSearch 
+    {
+        Integer MinimumPages;
+        Bool HasAuthor;
+        Bool CensorTitle;
     }
 
     Entity Topic

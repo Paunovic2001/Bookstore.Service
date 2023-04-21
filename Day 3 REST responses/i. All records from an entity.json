@@ -1,0 +1,124 @@
+//https://localhost:7112/rest/Bookstore/Book
+{
+  "records": [
+    {
+      "code": "1",
+      "numberOfPages": 337,
+      "title": "NewBook",
+      "authorID": "d0305013-6108-482f-aa50-690bb0c803c1",
+      "id": "bf149c9e-ec6e-42fe-bb09-92fe2154d127"
+    },
+    {
+      "code": "2",
+      "numberOfPages": 399,
+      "title": "NewBook",
+      "authorID": "6a0c9bff-8db4-41cd-8b71-c9da3ed44a49",
+      "id": "d90c3591-962c-421c-a21c-e11f74b702ea"
+    },
+    {
+      "code": "3",
+      "numberOfPages": 124,
+      "title": "Breakable Plot",
+      "authorID": null,
+      "id": "4d6141b9-10d1-4b56-a602-c0e64bedfb6d"
+    },
+    {
+      "code": "4",
+      "numberOfPages": 462,
+      "title": "Wasteful Cappelletti",
+      "authorID": null,
+      "id": "aa34eabf-3158-45b2-816a-39f126c9e781"
+    },
+    {
+      "code": "5",
+      "numberOfPages": 174,
+      "title": "Dysfunctional War",
+      "authorID": null,
+      "id": "641c144a-e352-4817-ad49-72de11dcc5f5"
+    },
+    {
+      "code": "6",
+      "numberOfPages": 158,
+      "title": "Forgetful Harmony",
+      "authorID": null,
+      "id": "0b923d1f-70ed-4747-91ad-3c5251649220"
+    },
+    {
+      "code": "7",
+      "numberOfPages": 128,
+      "title": "Small Heat",
+      "authorID": null,
+      "id": "40668064-5560-451b-b0d8-c02ffb36083b"
+    },
+    {
+      "code": "8",
+      "numberOfPages": 394,
+      "title": "Vulgar Bay",
+      "authorID": null,
+      "id": "88412f39-099d-439b-8bc1-e49a2d7aee74"
+    },
+    {
+      "code": "9",
+      "numberOfPages": 151,
+      "title": "Shrill Lobster",
+      "authorID": null,
+      "id": "9b696d69-ce25-423d-add0-7db95e7b33fc"
+    },
+    {
+      "code": "10",
+      "numberOfPages": 398,
+      "title": "Known Asterisk",
+      "authorID": null,
+      "id": "b7525d80-33d8-4ffb-a3e9-9f4f4a1c777d"
+    },
+    {
+      "code": "11",
+      "numberOfPages": 406,
+      "title": "Stereotyped Chime",
+      "authorID": null,
+      "id": "312b7bb8-f481-4043-878d-e2a6f611b88c"
+    },
+    {
+      "code": "12",
+      "numberOfPages": 281,
+      "title": "Cute Brown",
+      "authorID": null,
+      "id": "48dde7e9-0f71-45c5-a199-c71324906a5b"
+    },
+    {
+      "code": "13",
+      "numberOfPages": 111,
+      "title": "Sweltering Dipstick",
+      "authorID": null,
+      "id": "c681b024-70d4-4de3-accd-f8f00585e7f3"
+    },
+    {
+      "code": "14",
+      "numberOfPages": 205,
+      "title": "Petite Sock",
+      "authorID": null,
+      "id": "79e93b8b-eac1-4349-806d-00abfff136b4"
+    },
+    {
+      "code": "15",
+      "numberOfPages": 151,
+      "title": "Tedious Edger",
+      "authorID": null,
+      "id": "adb08050-f650-4582-92ff-44d24e33398b"
+    },
+    {
+      "code": "16",
+      "numberOfPages": 392,
+      "title": "Tan Trail",
+      "authorID": null,
+      "id": "9aea29db-a818-4948-be88-c92fe0b4a022"
+    },
+    {
+      "code": "17",
+      "numberOfPages": 370,
+      "title": "Dazzling Freon",
+      "authorID": null,
+      "id": "89ab98df-95a5-47a2-90d0-3bd3ff4ed706"
+    }
+  ]
+}

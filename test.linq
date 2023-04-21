@@ -1,13 +1,14 @@
 <Query Kind="Program">
-  <Reference Relative="bin\Debug\net6.0\Bookstore.Service.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Bookstore.Service.dll</Reference>
-  <Reference Relative="bin\Debug\net6.0\Bookstore.Service.deps.json">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Bookstore.Service.deps.json</Reference>
-  <Reference Relative="bin\Debug\net6.0\Bookstore.Service.runtimeconfig.json">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Bookstore.Service.runtimeconfig.json</Reference>
   <Reference Relative="bin\Debug\net6.0\Autofac.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Autofac.dll</Reference>
+  <Reference Relative="bin\Debug\net6.0\Bookstore.Service.deps.json">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Bookstore.Service.deps.json</Reference>
+  <Reference Relative="bin\Debug\net6.0\Bookstore.Service.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Bookstore.Service.dll</Reference>
+  <Reference Relative="bin\Debug\net6.0\Bookstore.Service.runtimeconfig.json">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Bookstore.Service.runtimeconfig.json</Reference>
   <Reference Relative="bin\Debug\net6.0\EntityFramework.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\EntityFramework.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\EntityFramework.SqlServer.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\EntityFramework.SqlServer.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\Microsoft.CodeAnalysis.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Microsoft.CodeAnalysis.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\Microsoft.Extensions.Localization.Abstractions.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Microsoft.Extensions.Localization.Abstractions.dll</Reference>
+  <Reference>..\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\Newtonsoft.Json.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Newtonsoft.Json.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\NLog.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\NLog.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\Oracle.ManagedDataAccess.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Oracle.ManagedDataAccess.dll</Reference>
@@ -42,20 +43,19 @@
   <Reference Relative="bin\Debug\net6.0\Rhetos.Security.Interfaces.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Rhetos.Security.Interfaces.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\Rhetos.Utilities.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Rhetos.Utilities.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\Rhetos.Utilities.Interfaces.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\Rhetos.Utilities.Interfaces.dll</Reference>
-  <Reference Relative="bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.dll</Reference>
-  <Reference Relative="bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.Protocols.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.Protocols.dll</Reference>
+  <Reference Relative="bin\Debug\net6.0\runtimes\win-x64\native\sni.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll</Reference>
   <Reference Relative="bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll</Reference>
-  <Reference>..\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll</Reference>
   <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Diagnostics.EventLog.dll</Reference>
   <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Diagnostics.EventLog.Messages.dll</Reference>
   <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Diagnostics.PerformanceCounter.dll</Reference>
+  <Reference Relative="bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.dll</Reference>
+  <Reference Relative="bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.Protocols.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\runtimes\win\lib\netcoreapp2.0\System.DirectoryServices.Protocols.dll</Reference>
   <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll</Reference>
   <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Runtime.Caching.dll</Reference>
-  <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll</Reference>
-  <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Windows.Extensions.dll</Reference>
   <Reference>..\runtimes\win\lib\netstandard2.0\System.Security.AccessControl.dll</Reference>
   <Reference>..\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll</Reference>
-  <Reference Relative="bin\Debug\net6.0\runtimes\win-x64\native\sni.dll">C:\Rhetos Workshop Try2\Bookstore\src\Bookstore.Service\bin\Debug\net6.0\runtimes\win-x64\native\sni.dll</Reference>
+  <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Text.Encoding.CodePages.dll</Reference>
+  <Reference>..\runtimes\win\lib\netcoreapp3.1\System.Windows.Extensions.dll</Reference>
   <Namespace>Autofac</Namespace>
   <Namespace>Oracle.ManagedDataAccess.Client</Namespace>
   <Namespace>Rhetos</Namespace>
@@ -75,62 +75,18 @@
   <Namespace>System.Runtime.Serialization.Json</Namespace>
   <Namespace>System.Xml.Serialization</Namespace>
   <IncludeAspNet>true</IncludeAspNet>
-  <RuntimeVersion>6.0</RuntimeVersion>
 </Query>
 
 void Main()
 {
-    ConsoleLogger.MinLevel = EventType.Info; // Use EventType.Trace for more detailed log.
-    string rhetosHostAssemblyPath = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @".\bin\Debug\net6.0\Bookstore.Service.dll");
-    using (var scope = LinqPadRhetosHost.CreateScope(rhetosHostAssemblyPath))
-    {
-        var context = scope.Resolve<Common.ExecutionContext>();
-        var repository = context.Repository;
+	ConsoleLogger.MinLevel = EventType.Info; // Use EventType.Trace for more detailed log.
+	string rhetosHostAssemblyPath = Path.Combine(Path.GetDirectoryName(Util.CurrentQueryPath), @".\bin\Debug\net6.0\Bookstore.Service.dll");
+	using (var scope = LinqPadRhetosHost.CreateScope(rhetosHostAssemblyPath))
+	{
+		var context = scope.Resolve<Common.ExecutionContext>();
+		var repository = context.Repository;
 
-        // Query data
-		// seed data for authors
-		//repository.Bookstore.Person
-		//	.Insert
-		//	(
-		//		new[]
-		//		{
-		//			new Bookstore.Person { Name = "James Doe" },
-		//			new Bookstore.Person { Name = "Jane Doe" }
-		//		}
-		//	);
-		//var authors = repository.Bookstore.Person.Load().Dump();
-		//
-		//var booksToUpdate = repository.Bookstore.Book.Load();
-		//booksToUpdate[0].AuthorID = authors[0].ID;
-		//booksToUpdate[1].AuthorID = authors[1].ID;
-		//repository.Bookstore.Book.Update(booksToUpdate.AsEnumerable());
-		
-		//Load() assignment
-		// load books without author
-		var books = repository.Bookstore.Book.Load();
-		//books.Dump("Books without author (Load)");
-		
-		// load author for each book
-		var booksWithAuthors = books.Select(b => new 
-			{
-				BookTitle = b.Title, 
-				AuthorName = repository.Bookstore.Person.Load(p => p.ID == b.AuthorID).FirstOrDefault().Name
-			});
-		
-		//booksWithAuthors.Dump("Books with author (Load)");
 
-		//Query() assignment
-		var query = repository.Bookstore.Book.Query()
-			.Select(b => new 
-				{
-					BookTitle = b.Title,
-					AuthorName = b.Author.Name
-				}
-			);
-		
-		//query.ToString().Dump($"Generated query");
-		//query.Dump("Results from above query");
-		
 		//Call of Action from LINQPad
 		//create parameters first
 		var actionParameter = new Bookstore.InsertRandomBooks
@@ -142,43 +98,39 @@ void Main()
 		//print all the books (hopefully) including the newly generated ones
 		var newBooks = repository.Bookstore.Book.Load();
 		//add page numbers for ComposableFilterBy
-		foreach(var book in newBooks)
+		foreach (var book in newBooks)
 		{
-			book.NumberOfPages = new Random().Next (100, 500);
+			book.NumberOfPages = new Random().Next(100, 500);
 			repository.Bookstore.Book.Update(book);
 		}
-		
-		//DAY 3
-		
-		newBooks.Except(books).Dump("New books");
-		//ItemFilter demo
-		var itemFilter = new Bookstore.LongTitle();
-		var filterQuery = repository.Bookstore.Book.Query(itemFilter);
-		filterQuery.ToString().Dump("SQL Query generated with ItemFilter");
-		filterQuery.ToSimple().ToList().Dump("Results from ItemFilter query");
 
-		//ComposableFilterBy demo
-		var composableFilter = new Bookstore.BooksContainingLetterAInTitleAndLongerThan 
+		//DAY 3
+		var parameter = new 
 		{
-			NumberOfPages = 300
+			MinimumPages = 200,
+			HasAuthor = true,
+			CensorTitle = false
 		};
-		filterQuery = repository.Bookstore.Book.Query(composableFilter);
-		filterQuery.ToString().Dump("SQL Query generated with ComposableFilterBy");
-		filterQuery.ToSimple().ToList().Dump("Results from ComposableFilterBy query");
+		var query = repository.Bookstore.Book.Query(item => item.NumberOfPages >= parameter.MinimumPages);
+		if (parameter.HasAuthor == true)
+		{
+			query.Where(item => item.AuthorID == null);
+		}
+
+		Bookstore.Book[] books = query.ToSimple().ToArray();
+
+		if (parameter.CensorTitle == true)
+		{
+			foreach (var book in books)
+			{
+				book.Title = book.Title.First() + "%#%@^!%" + book.Title.Last();
+			}
+		}
 		
-		//FilterBy demo
-		var filterBy = new Bookstore.ComplexSearch 
-		{
-			CensorTitle = false,
-			MinimumPages = 150,
-			HasAuthor = false
-		};
-		var filterByQuery = repository.Bookstore.Book.Load(filterBy);
-		filterByQuery.ToString().Dump("SQL Query generated with FilterBy");
-		filterByQuery.Dump("Results from FilterBy query");
+		query.Dump();
 
 		Console.WriteLine("Done.");
-        
-        //scope.CommitAndClose(); // Database transaction is rolled back by default.
-    }
+
+		//scope.CommitAndClose(); // Database transaction is rolled back by default.
+	}
 }

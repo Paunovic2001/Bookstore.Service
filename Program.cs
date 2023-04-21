@@ -14,7 +14,8 @@ builder.Services.AddRhetosHost((serviceProvider, rhetosHostBuilder) => rhetosHos
         .UseBuilderLogProviderFromHost(serviceProvider)
         .ConfigureConfiguration(cfg => cfg.MapNetCoreConfiguration(builder.Configuration)))
     .AddAspNetCoreIdentityUser()
-    .AddHostLogging();
+    .AddHostLogging()
+    .AddRestApi(o => o.BaseRoute = "rest");
 
 var app = builder.Build();
 
@@ -28,6 +29,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseRhetosRestApi();
 
 app.MapControllers();
 

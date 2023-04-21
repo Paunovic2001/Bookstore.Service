@@ -1,0 +1,12 @@
+//https://localhost:7112/rest/Bookstore/Book/?filters=[{"Property":"Title","Operation":"Contains","Value":"Wasteful"}]
+{
+  "records": [
+    {
+      "code": "4",
+      "numberOfPages": 462,
+      "title": "Wasteful Cappelletti",
+      "authorID": null,
+      "id": "aa34eabf-3158-45b2-816a-39f126c9e781"
+    }
+  ]
+}
