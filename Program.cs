@@ -33,5 +33,5 @@ app.UseAuthorization();
 app.UseRhetosRestApi();
 
 app.MapControllers();
-
+ 
 app.Run();

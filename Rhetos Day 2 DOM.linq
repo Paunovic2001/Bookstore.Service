@@ -177,6 +177,7 @@ void Main()
 		filterByQuery.ToString().Dump("SQL Query generated with FilterBy");
 		filterByQuery.Dump("Results from FilterBy query");
 
+		repository.Bookstore.BookInfo.Load().Dump();
 		Console.WriteLine("Done.");
         
         //scope.CommitAndClose(); // Database transaction is rolled back by default.

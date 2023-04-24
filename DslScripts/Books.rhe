@@ -44,6 +44,22 @@ Module Bookstore
         Logging;
     }
 
+    SqlView LongBooksView <SQL\LongBooksView.sql>
+    {
+        AutoDetectSqlDependencies;
+    }
+
+    //changed to looking for book that starts with 'c' because there were no book that start with 'a' in the seed data
+    SqlQueryable LongBooksStartWithA <SQL\LongBooksUse.sql> 
+    {
+        Extends Bookstore.Book;
+        ShortString Title;
+        Integer NumberOfPages;
+        ShortString Code;
+
+        AutodetectSqlDependencies; 
+    }
+
     Parameter BooksContainingLetterAInTitleAndLongerThan
     {
         Integer NumberOfPages;
