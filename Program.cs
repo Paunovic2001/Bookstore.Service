@@ -1,4 +1,5 @@
 using Rhetos;
+using Microsoft.AspNetCore.Authentication.Negotiate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,12 +10,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = options.DefaultPolicy;
+});
+
 builder.Services.AddRhetosHost((serviceProvider, rhetosHostBuilder) => rhetosHostBuilder
         .ConfigureRhetosAppDefaults()
         .UseBuilderLogProviderFromHost(serviceProvider)
         .ConfigureConfiguration(cfg => cfg.MapNetCoreConfiguration(builder.Configuration)))
     .AddAspNetCoreIdentityUser()
     .AddHostLogging()
+    .AddDashboard()
     .AddRestApi(o => o.BaseRoute = "rest");
 
 var app = builder.Build();
@@ -28,10 +37,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.UseRhetosRestApi();
 
 app.MapControllers();
- 
+
+
+if (app.Environment.IsDevelopment())
+    app.MapRhetosDashboard();
+
 app.Run();

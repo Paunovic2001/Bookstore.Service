@@ -6,6 +6,22 @@ Module Bookstore
         ShortString Title;
         Integer NumberOfPages;
         Reference Author Bookstore.Person;
+        Reference Employee Bookstore.Employee;
+
+        //day 4
+        RowPermissions
+        {
+            Allow OwnerAccess 'context => 
+            {
+                Guid myEmployeeId = context.Repository.Bookstore.Employee.Query()
+                    .Where(e => e.Name == context.UserInfo.UserName)
+                    .Select(e => e.ID)
+                    .SingleOrDefault();
+                return item => item.Employee.ID == myEmployeeId;
+            }';
+
+            AllowRead EveryoneCanRead 'context => book => true';
+        }
 
         //day3 item filter
         ItemFilter LongTitle 'item => item.Title.Length > 10';
