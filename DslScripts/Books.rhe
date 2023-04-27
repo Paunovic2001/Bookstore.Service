@@ -6,7 +6,8 @@ Module Bookstore
         ShortString Title;
         Integer NumberOfPages;
         Reference Author Bookstore.Person;
-        Reference Employee Bookstore.Employee;
+        Reference Employee Bookstore.Employee { Detail; }
+        MonitoredRecord;
 
         //day 4
         RowPermissions

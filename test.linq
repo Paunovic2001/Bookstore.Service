@@ -84,52 +84,44 @@ void Main()
 	using (var scope = LinqPadRhetosHost.CreateScope(rhetosHostAssemblyPath))
 	{
 		var context = scope.Resolve<Common.ExecutionContext>();
-		var repository = context.Repository;
+        var repository = context.Repository;
 
+		var s1 = new Bookstore.Shipment { DeliveryDate = DateTime.Now, TargetAddress = "Shipment 1" };
+		var s2 = new Bookstore.Shipment { DeliveryDate = DateTime.Now, TargetAddress = "Shipment 2" };
+		repository.Bookstore.Shipment.Insert(s1, s2);
 
-		//Call of Action from LINQPad
-		//create parameters first
-		var actionParameter = new Bookstore.InsertRandomBooks
-		{
-			NumberOfBooks = 15
-		};
-		//execute the action using given parameters
-		repository.Bookstore.InsertRandomBooks.Execute(actionParameter);
-		//print all the books (hopefully) including the newly generated ones
-		var newBooks = repository.Bookstore.Book.Load();
-		//add page numbers for ComposableFilterBy
-		foreach (var book in newBooks)
-		{
-			book.NumberOfPages = new Random().Next(100, 500);
-			repository.Bookstore.Book.Update(book);
-		}
+		var approved1 = new Bookstore.ApproveShipment { ShipmentID = s1.ID, Explanation = "all good" };
+		repository.Bookstore.ApproveShipment.Insert(approved1);
 
-		//DAY 3
-		var parameter = new 
-		{
-			MinimumPages = 200,
-			HasAuthor = true,
-			CensorTitle = false
-		};
-		var query = repository.Bookstore.Book.Query(item => item.NumberOfPages >= parameter.MinimumPages);
-		if (parameter.HasAuthor == true)
-		{
-			query.Where(item => item.AuthorID == null);
-		}
+		// Testing that the persisted "ShipmentCurrentState" is automatically updated:
+		repository.Bookstore.ComputeShipmentCurrentState.Load().OrderBy(s => s.ID).Dump("ComputeShipmentCurrentState");
+		repository.Bookstore.ShipmentCurrentState.Load().OrderBy(s => s.ID).Dump("ShipmentCurrentState");
+		repository.Bookstore.ShipmentGrid.Load().OrderBy(s => s.ID).Dump("ShipmentGrid");
 
-		Bookstore.Book[] books = query.ToSimple().ToArray();
+		// If we did not have ChangesOnChangedItems in DSL script, then ShipmentCurrentState
+		// would be out-of-sync after inserting "approved1".
+		// The following code shows what is going on in Rhetos when executing ChangesOnChangedItems,
+		// and it can help developers to write and test the ChangesOnChangedItems code snippet.
 
-		if (parameter.CensorTitle == true)
-		{
-			foreach (var book in books)
-			{
-				book.Title = book.Title.First() + "%#%@^!%" + book.Title.Last();
-			}
-		}
-		
-		query.Dump();
+		var changedItems = new[] { approved1 };
+		Guid[] needsUpdating = changedItems
+			.Select(item => item.ShipmentID.Value)
+			.ToArray();
+		needsUpdating.Dump("needsUpdating");
 
-		Console.WriteLine("Done.");
+		// "needsUpdating" represents the resulting filter that is returned by ChangesOnChangedItems code snippet.
+		// KeepSynchronized concept will compare the source (ComputeShipmentCurrentState) and target (ShipmentCurrentState)
+		// date based on this filter:
+
+		repository.Bookstore.ShipmentCurrentState.Load(needsUpdating).Dump("ShipmentCurrentState for sync");
+		repository.Bookstore.ComputeShipmentCurrentState.Load(needsUpdating).Dump("ComputeShipmentCurrentState for sync");
+
+		// KeepSynchronized automatically calls the following recompute method when ApproveShipment is written.
+		// RecomputeFromComputeShipmentCurrentState method will:
+		// 1. Compare the 2 results (above), loaded with the filter that was provided by ChangesOnChangedItems.
+		// 2. Insert, update or delete records in ShipmentCurrentState to match the results from ComputeShipmentCurrentState.
+
+		repository.Bookstore.ShipmentCurrentState.RecomputeFromComputeShipmentCurrentState(needsUpdating);
 
 		//scope.CommitAndClose(); // Database transaction is rolled back by default.
 	}

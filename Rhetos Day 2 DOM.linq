@@ -88,8 +88,31 @@ void Main()
         var repository = context.Repository;
 
 		context.UserInfo.UserName.ToString();
+		//create a new employee
+		var employee = new Bookstore.Employee 
+		{
+			Name = "Ivan Ivanic",
+			VATNumber = "12354687468"
+		};
 
-        // Query data
+
+//		repository.Bookstore.Employee.Insert(employee);
+		employee = repository.Bookstore.Employee.Query().FirstOrDefault(e => e.Name == employee.Name).Dump();
+
+		//create a single new book
+		var bookToAdd = new Bookstore.Book 
+		{
+			Title = "MonitoredRecord knjiga 2",
+			NumberOfPages = 248,
+			AuthorID = repository.Bookstore.Person.Query().FirstOrDefault().ID,
+			EmployeeID = employee.ID
+		};
+
+//		repository.Bookstore.Book.Insert(bookToAdd);
+		bookToAdd = repository.Bookstore.Book.Query().FirstOrDefault(b => b.Title == bookToAdd.Title).Dump();
+
+		//repository.Common.Log.Query().Where(logitem => logitem.ItemId.ToString() == "300fbc54-4c38-4d36-ae3a-4f46c0f74468").Dump("LOG");
+		// Query data
 		// seed data for authors
 		//repository.Bookstore.Person
 		//	.Insert
@@ -140,7 +163,7 @@ void Main()
 			NumberOfBooks = 15
 		};
 		//execute the action using given parameters
-		repository.Bookstore.InsertRandomBooks.Execute(actionParameter);
+		//repository.Bookstore.InsertRandomBooks.Execute(actionParameter);
 		//print all the books (hopefully) including the newly generated ones
 		var newBooks = repository.Bookstore.Book.Load();
 		//add page numbers for ComposableFilterBy

@@ -7,6 +7,9 @@
     <RhetosDeploy>True</RhetosDeploy>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Day 4 Macro concept\MonitoredRecordInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Negotiate" Version="6.0.16" />
