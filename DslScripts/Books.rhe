@@ -18,8 +18,24 @@ Module Bookstore
                     .Where(e => e.Name == context.UserInfo.UserName)
                     .Select(e => e.ID)
                     .SingleOrDefault();
-                return item => item.Employee.ID == myEmployeeId;
+                return item => true/*item.Employee.ID == myEmployeeId*/;
             }';
+
+            Allow AdminAccess 'context =>
+            {
+                Guid principalId = context.Repository.Common.Principal.Query()
+                    .Where(p => p.Name == context.UserInfo.UserName)
+                    .Select(p => p.ID)
+                    .SingleOrDefault();
+
+                Guid? roleId = context.Repository.Common.PrincipalHasRole.Query()
+                    .Where(phr => phr.PrincipalID == principalId)
+                    .Select(phr => phr.RoleID)
+                    .First();
+
+                return item => true /*context.Repository.Common.Role.Query(r => r.ID == roleId).SingleOrDefault().Name == "Admin"*/ ;
+            }
+            ';
 
             AllowRead EveryoneCanRead 'context => book => true';
         }
@@ -61,6 +77,90 @@ Module Bookstore
         Logging;
     }
 
+    Entity NumberOfReviews
+    {
+        Extends Bookstore.Book;
+        Integer Count;
+    }
+
+    Entity Review
+    {
+        Reference Book { Required; }
+        Integer Score { Required; MinValue 1; MaxValue 5; }
+        LongString Text;
+        DateTime LastModifiedTime;
+
+        SaveMethod
+        {
+            Initialization DefaultTextFromScore
+                '
+                    foreach (var item in insertedNew)
+                        if (string.IsNullOrEmpty(item.Text) && item.Score != null)
+                        {
+                            item.Text = item.Score.Value >= 3
+                                ? "I like it" : "I don''t like it";
+                            item.LastModifiedTime = DateTime.Now; //demonstrated initialization on LastModifiedTime property
+                        }
+                ';
+            
+            LoadOldItems
+            {
+                Take Score;
+                Take 'Book.Title';
+            }
+
+            OldDataLoaded AppendTextIfScoreChanged
+                '
+                    var itemsWithModifiedScore = updatedOld
+                        .Zip(updatedNew, (oldValue, newValue) => new { oldValue, newValue })
+                        .Where(modified => modified.oldValue.Score == null && modified.newValue.Score != null 
+                        || modified.oldValue.Score != null && !modified.oldValue.Score.Equals(modified.newValue.Score)).ToList();
+
+                    foreach (var item in itemsWithModifiedScore)
+                        item.newValue.Text += string.Format(" (changed from {0} to {1})",
+                            item.oldValue.Score,
+                            item.newValue.Score);
+                ';
+
+            OnSaveUpdate UpdateNumberOfReviews
+                '
+                var bookIds = insertedNew.Select(review => review.BookID.Value)
+                    .Concat(updatedNew.Select(review => review.BookID.Value))
+                    .Concat(deletedIds.Select(review => review.BookID.Value))
+                    .Distinct().ToList();
+
+                var numberOfReviews = _domRepository.Bookstore.Book.Query(bookIds)
+                    .Select(book => new NumberOfReviews
+                    {
+                        ID = book.ID,
+                        Count = _domRepository.Bookstore.Review.Subquery.Where(r => r.BookID == book.ID).Count()
+                    })
+                    .ToList();
+
+                var oldRecordIds = _domRepository.Bookstore.NumberOfReviews.Query(bookIds).Select(n => n.ID).ToList();
+                _domRepository.Bookstore.NumberOfReviews.Insert(numberOfReviews.Where(r => !oldRecordIds.Contains(r.ID)));
+                _domRepository.Bookstore.NumberOfReviews.Update(numberOfReviews.Where(r => oldRecordIds.Contains(r.ID)));
+                ';
+
+             OnSaveValidate DenyChangeOfLockedTitle
+                '
+                var itemsWithModifiedScore = updatedOld
+                    .Zip(updatedNew, (oldValue, newValue) => new { oldValue, newValue })
+                    .Where(modified => modified.oldValue.Score == null && modified.newValue.Score != null
+                        || modified.oldValue.Score != null && !modified.oldValue.Score.Equals(modified.newValue.Score))
+                    .Where(modified => modified.oldValue.BookTitle.IndexOf("lock", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                    .FirstOrDefault();
+
+                if (itemsWithModifiedScore != null)
+                    throw new Rhetos.UserException(string.Format(
+                        "It is not allowed to modify score ({0} => {1}) for the book \"{2}\" because to contains \"lock\" in the title.",
+                        itemsWithModifiedScore.oldValue.Score,
+                        itemsWithModifiedScore.newValue.Score,
+                        itemsWithModifiedScore.oldValue.BookTitle));
+                ';
+        }
+    }
+
     SqlView LongBooksView <SQL\LongBooksView.sql>
     {
         AutoDetectSqlDependencies;
@@ -73,7 +173,7 @@ Module Bookstore
         ShortString Title;
         Integer NumberOfPages;
         ShortString Code;
-
+        
         AutodetectSqlDependencies; 
     }
 
@@ -117,8 +217,26 @@ Module Bookstore
         Take 'Author.Name';
         Take NumberOfTopics 'Extension_TotalTopicsForBook.NumberOfTopics';
     }
-    /*
-    SqlQueryable BookInfo
+    
+    SqlQueryable TotalTopicsForBook
+    "
+        SELECT
+            b.ID,
+            NumberOfTopics = COUNT(bt.ID)
+        FROM 
+            Bookstore.Book b
+            JOIN BookTopic bt ON b.ID = bt.BookID 
+        GROUP BY 
+            b.ID
+    "
+    {
+        Extends Bookstore.Book;
+        Integer NumberOfTopics;
+
+        SqlDependsOn Bookstore.BookTopic;
+    }
+    
+    /*SqlQueryable BookInfo
         "
             SELECT
                 b.ID,
@@ -136,21 +254,6 @@ Module Bookstore
         AutodetectSqlDependencies;
     }*/
 
-    SqlQueryable TotalTopicsForBook
-    "
-        SELECT
-            b.ID,
-            NumberOfTopics = COUNT(bt.ID)
-        FROM 
-            Bookstore.Book b
-            JOIN BookTopic bt ON b.ID = bt.BookID 
-        GROUP BY 
-            b.ID
-    "
-    {
-        Extends Bookstore.Book;
-        Integer NumberOfTopics;
-    }
 
     //Same as BookInfo above, only it uses an external SQL script placed inside the SQL folder found in the DslScripts folder
     SqlQueryable BookInfo <SQL\BookInfo.sql>

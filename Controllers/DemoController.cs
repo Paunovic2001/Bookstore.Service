@@ -1,13 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Rhetos;
 using Rhetos.Processing;
+using Rhetos.Host;
 using Rhetos.Processing.DefaultCommands;
+using Microsoft.OpenApi.Writers;
 
 [Route("Demo/[action]")]
 public class DemoController : ControllerBase
 {
     private readonly IProcessingEngine processingEngine;
     private readonly IUnitOfWork unitOfWork;
+
+
 
     public DemoController(IRhetosComponent<IProcessingEngine> processingEngine, IRhetosComponent<IUnitOfWork> unitOfWork)
     {
@@ -23,13 +27,25 @@ public class DemoController : ControllerBase
         return $"{result.TotalCount} books.";
     }
 
-    [HttpGet]
-    public string WriteBook()
+    //ne radi, ne isprobavaj na swaggeru, strga sve
+    //radi kad se pogase row permissioni na Entity Book, trenutno su ugaseni
+    [Route("Demo/[action]/{name}")]
+    [HttpPost()]
+    public string WriteBook(string name = "")
     {
-        var newBook = new Bookstore.Book { Title = "NewBook" };
-        var saveCommandInfo = new SaveEntityCommandInfo { Entity = "Bookstore.Book", DataToInsert = new[] { newBook } };
-        processingEngine.Execute(saveCommandInfo);
-        unitOfWork.CommitAndClose(); // Commits and closes database transaction.
-        return "1 book inserted.";
+        using (var scope = RhetosHost.CreateFrom(Path.Combine(Directory.GetCurrentDirectory(), @".\bin\Debug\net6.0\Bookstore.Service.dll")))
+        {
+            var context = scope.CreateScope().Resolve<Common.ExecutionContext>();
+            var repository = context.Repository;
+
+            Console.WriteLine(context.UserInfo.UserName);
+            var employeeToInsert = repository.Bookstore.Employee.Query().FirstOrDefault(e => e.Name == name);
+
+            var newBook = new Bookstore.Book { Title = "NewBook", EmployeeID = employeeToInsert.ID };
+            var saveCommandInfo = new SaveEntityCommandInfo { Entity = "Bookstore.Book", DataToInsert = new[] { newBook } };
+            processingEngine.Execute(saveCommandInfo);
+            unitOfWork.CommitAndClose(); // Commits and closes database transaction.
+            return "1 book inserted.";
+        }
     }
 }

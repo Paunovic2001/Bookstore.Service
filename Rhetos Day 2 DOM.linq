@@ -87,6 +87,18 @@ void Main()
         var context = scope.Resolve<Common.ExecutionContext>();
         var repository = context.Repository;
 
+		Guid principalId = repository.Common.Principal.Query()
+					.Where(p => p.Name == context.UserInfo.UserName)
+					.Select(p => p.ID)
+					.SingleOrDefault();
+
+		var roleId = repository.Common.PrincipalHasRole.Query()
+			.Where(phr => phr.PrincipalID == principalId)
+			.Select(phr => phr.RoleID)
+			.Single();
+		
+		repository.Common.Role.Query(r => r.ID == roleId).SingleOrDefault().Dump();
+		
 		context.UserInfo.UserName.ToString();
 		//create a new employee
 		var employee = new Bookstore.Employee 
@@ -170,6 +182,7 @@ void Main()
 		foreach(var book in newBooks)
 		{
 			book.NumberOfPages = new Random().Next (100, 500);
+			book.EmployeeID = repository.Bookstore.Employee.Query().FirstOrDefault().ID;
 			repository.Bookstore.Book.Update(book);
 		}
 		
@@ -203,6 +216,8 @@ void Main()
 		filterByQuery.Dump("Results from FilterBy query");
 
 		repository.Bookstore.LongBooksStartWithA.Load().Dump();
+		
+		repository.Bookstore.Book.Query().FirstOrDefault().Dump("AAAAAA");
 		Console.WriteLine("Done.");
         
         //scope.CommitAndClose(); // Database transaction is rolled back by default.

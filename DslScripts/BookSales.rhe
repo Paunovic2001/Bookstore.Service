@@ -34,7 +34,6 @@
     }
 
     // Polymorphic can be used as any other queryable data structure:
-
     Browse SalesItemGrid Bookstore.SalesItem
     {
         Take Code;
@@ -43,7 +42,6 @@
     }
 
     // Polymorphic can even have a detail entity:
-
     Entity SalesItemComment
     {
         Reference SalesItem { Detail; }
